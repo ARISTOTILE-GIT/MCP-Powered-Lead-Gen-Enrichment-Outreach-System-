@@ -43,3 +43,31 @@ graph TD
     Draft --> DB
     Send --> DB
     DB --> User
+```
+---
+
+## 📁 Project Structure
+
+The project follows a **clean micro-service architecture**, separating backend services, agent tools, automation workflows, and configuration.
+
+MCP-Powered Lead Gen+Enrichment+Outreach System/
+│
+├── app/                        # Main Application Source Code
+│   ├── api.py                  # MCP Server (FastAPI) - The entry point
+│   ├── dashboard.py            # Streamlit Frontend - The monitoring UI
+│   ├── database.py             # SQLite Connection Manager
+│   ├── generate_leads.py       # Tool: Generates dummy leads (Faker)
+│   ├── enrich_leads.py         # Tool: Enriches leads (Groq LLM / Rules)
+│   ├── generate_messages.py    # Tool: Drafts emails (LLM)
+│   ├── send_messages.py        # Tool: Sends emails (SMTP)
+│   └── mock_server.py          # SMTP Simulator for local testing
+│
+├── n8n/
+│   └── pipeline_workflow.json  # n8n Workflow Export File
+│
+├── requirements.txt            # Python Dependencies
+├── .env.example                # Configuration Example
+└── README.md                   # Project Documentation
+
+---
+
