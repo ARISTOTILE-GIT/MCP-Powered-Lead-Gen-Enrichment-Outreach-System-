@@ -95,8 +95,6 @@ Per assignment constraints, **zero paid tools** were used.
 - Python 3.8+ installed  
 - Docker Desktop installed (for n8n)
 
----
-
 ### Step 1: Clone the Repository
 
 ```bash
@@ -122,8 +120,6 @@ GROQ_API_KEY=gsk_your_actual_api_key_here
 
 *To see the full pipeline in action, you need **3 terminal windows** running simultaneously.*
 
----
-
 ### Terminal 1: Mock SMTP Server
 
 **Catches emails locally to ensure safe testing (Dry/Live modes).**
@@ -131,7 +127,7 @@ GROQ_API_KEY=gsk_your_actual_api_key_here
 ```bash
 python app/mock_server.py
 ```
----
+
 ### Terminal 2: Backend MCP Server
 
 **Exposes the tools (`generate`, `enrich`, `send`) via HTTP endpoints.**
@@ -141,7 +137,6 @@ python app/api.py
 ```
 *Server starts at `http://localhost:8000`*
 
----
 ### Terminal 3: Frontend Dashboard
 
 **Monitors the pipeline progress and logs.**
@@ -156,8 +151,6 @@ streamlit run app/dashboard.py
 # 🔄 6.Orchestration: n8n Workflow
 
 The orchestration logic is handled by **n8n**, fulfilling the **"Agent"** requirement.
-
----
 
 ### 1. Start n8n (Docker)
 
@@ -178,3 +171,53 @@ docker run -it --rm --name n8n -p 5678:5678 --add-host=host.docker.internal:host
 
 ---
 
+# 📘 7.Usage Guide (Modes)
+
+The dashboard allows you to control the **"Intelligence"** and **"Safety"** of the pipeline via interactive toggles.
+
+---
+
+### 🎛️ Sending Mode: Dry Run vs Live Run
+
+#### 🔹 Dry Run (Test Only)
+- Simulates the sending process  
+- Logs generated content to the database/dashboard  
+- **Does NOT** interact with the SMTP server  
+- Status updates to: `SENT_DRY_RUN`
+
+#### 🔹 Live Run (Send Emails)
+- Actually connects to the Mock SMTP server  
+- Dispatches real emails locally  
+- Status updates to: `SENT`
+
+---
+
+### 🧠 Enrichment Mode: AI vs Offline
+
+#### 🔹 Offline (Rules – Fast)
+- Uses heuristic rules based on **Industry / Role**  
+- Assigns standard pain points  
+- Extremely fast  
+- Ideal for high-volume testing
+
+#### 🔹 AI Agent (Groq LLM)
+- Calls the **Groq API (Llama-3 model)**  
+- Deeply analyzes the lead persona  
+- Generates hyper-personalized pain points and buying triggers  
+- Slower but significantly higher quality output
+
+---
+
+### 📝 Message Generation: AI vs Template
+
+#### 🔹 AI Generation
+- Used when **AI Agent enrichment** is enabled  
+- Drafts unique emails using AI-generated pain points  
+- Powered by **Llama-3**
+
+#### 🔹 Template Fallback
+- Used when **Offline enrichment** is selected  
+- Uses structured templates  
+- Ensures message coherence without requiring an LLM call
+
+---
