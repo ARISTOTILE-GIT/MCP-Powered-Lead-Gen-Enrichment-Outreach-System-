@@ -1,4 +1,4 @@
-# 📌1.Introduction
+# 📌 1.Introduction
 
 # 🤖 Agentic Sales Bot: MCP-Powered Lead Gen & Outreach System
 
