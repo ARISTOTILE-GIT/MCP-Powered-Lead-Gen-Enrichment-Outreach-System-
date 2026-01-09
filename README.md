@@ -255,7 +255,7 @@ Beyond the core requirements, the following **"Nice-to-Have"** features were add
 
 # 📈 9.Output & Artifacts
 
-### 1. Dashboard Monitoring**
+### 1. Dashboard Monitoring
 *The Streamlit dashboard provides a comprehensive view of the pipeline health.*
 
 ### 2. Sample Lead Data (JSON)
