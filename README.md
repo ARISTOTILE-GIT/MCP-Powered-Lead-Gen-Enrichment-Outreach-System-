@@ -48,8 +48,9 @@ graph TD
 
 ## 📁 Project Structure
 
-The project follows a **clean micro-service architecture**, separating backend services, agent tools, automation workflows, and configuration.
+**The project follows a **clean micro-service architecture**, separating backend services, agent tools, automation workflows, and configuration.**
 
+```
 MCP-Powered Lead Gen+Enrichment+Outreach System/
 │
 ├── app/                        # Main Application Source Code
@@ -68,6 +69,6 @@ MCP-Powered Lead Gen+Enrichment+Outreach System/
 ├── requirements.txt            # Python Dependencies
 ├── .env.example                # Configuration Example
 └── README.md                   # Project Documentation
-
+```
 ---
 
