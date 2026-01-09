@@ -175,8 +175,6 @@ docker run -it --rm --name n8n -p 5678:5678 --add-host=host.docker.internal:host
 
 The dashboard allows you to control the **"Intelligence"** and **"Safety"** of the pipeline via interactive toggles.
 
----
-
 ### 🎛️ Sending Mode: Dry Run vs Live Run
 
 #### 🔹 Dry Run (Test Only)
@@ -221,3 +219,100 @@ The dashboard allows you to control the **"Intelligence"** and **"Safety"** of t
 - Ensures message coherence without requiring an LLM call
 
 ---
+
+# 🌟 8.Bonus Features Implemented
+
+Beyond the core requirements, the following **"Nice-to-Have"** features were added:
+
+### 💾 CSV Export
+- Download all generated leads  
+- Export message logs directly from the dashboard  
+- Useful for external analysis and reporting
+
+---
+
+### 🧹 Log Management
+- Clear the database directly from the UI  
+- Wipe application log files  
+- No need to restart backend or dashboard servers
+
+---
+
+### 📉 Funnel Analytics
+- Visual conversion funnel chart  
+- Tracks pipeline flow:
+  - `New → Enriched → Messaged → Sent`
+- Helps identify drop-offs and bottlenecks
+
+---
+
+### 📜 Live Logs
+- Real-time log viewer embedded in the dashboard  
+- Observe AI-generated content as it happens  
+- Useful for debugging and transparency
+
+---
+
+# 📈 9.Output & Artifacts
+
+### 1. Dashboard Monitoring**
+*The Streamlit dashboard provides a comprehensive view of the pipeline health.*
+
+### 2. Sample Lead Data (JSON)
+
+```JSON
+{
+  "id": "lead_550e8400-e29b-41d4-a716-446655440000",
+  "created_at": "2023-10-27T10:00:00Z",
+  "status": "SENT",
+  
+  "basic_info": {
+    "full_name": "Sarah Connor",
+    "role": "Chief Technology Officer",
+    "company_name": "SkyNet Systems",
+    "industry": "Technology",
+    "email": "sarah.connor@skynetsystems.com",
+    "linkedin_url": "https://www.linkedin.com/in/sarah-connor-tech",
+    "website": "https://www.skynetsystems.com",
+    "country": "United States"
+  },
+
+  "enrichment_data": {
+    "company_size": "Enterprise (1000+ employees)",
+    "persona_tag": "Technical Decision Maker",
+    "confidence_score": 92,
+    "pain_points": [
+      "Struggling with high cloud infrastructure costs and AWS bill shock.",
+      "Technical debt slowing down new feature release cycles.",
+      "Difficulty hiring and retaining senior DevOps engineers."
+    ],
+    "buying_triggers": [
+      "Recently raised Series C funding.",
+      "Posted 5 new job openings for 'Cloud Architect' last week."
+    ]
+  },
+
+  "generated_outreach": {
+    "email_subject": "Scaling SkyNet's tech without the cloud cost bloat",
+    "email_body": "Hi Sarah,\n\nI noticed SkyNet Systems is scaling rapidly after your recent Series C. Congrats! As a CTO, balancing speed with spiraling cloud costs is often the biggest headache.\n\nOur AI-driven infrastructure tool helps engineering leaders like you slash AWS bills by 20% while automating technical debt reduction. \n\nWorth a 15-minute chat to see how we can optimize your roadmap?",
+    "linkedin_dm": "Hi Sarah, saw SkyNet's growth. Impressive! If cloud costs or tech debt are slowing down your new releases, our AI tool helps CTOs reclaim engineering time. Open to a quick chat?",
+    "sent_at": "2023-10-27T10:05:30Z"
+  }
+}
+```
+
+### 3. Sample Generated Email
+
+```Plaintext
+Subject: Scaling Tech Debt at SkyNet Systems?
+
+Hi Sarah,
+I noticed SkyNet is scaling rapidly. As a CTO, dealing with cloud costs and technical debt usually becomes a bottleneck. 
+Our automated optimization tool helps engineering leaders reclaim 20% of their roadmap...
+```
+
+---
+
+# 🪪 10.License
+
+**This project is created for the Agentic AI Internship Technical Assessment.**
