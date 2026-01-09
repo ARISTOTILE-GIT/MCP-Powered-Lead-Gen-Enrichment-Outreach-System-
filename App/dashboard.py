@@ -7,12 +7,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 import os
 
-# --- CONFIGURATION ---
 API_URL = "http://localhost:8000"
 DB_PATH = "leads.db"
 LOG_FILE = "outreach.log"
 
-# --- PAGE SETUP ---
 st.set_page_config(
     page_title="Agentic AI Pipeline Monitor",
     page_icon="🤖",
@@ -20,7 +18,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for Professional Look
 st.markdown("""
     <style>
         .block-container {padding-top: 1rem;}
@@ -39,7 +36,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- HELPER FUNCTIONS ---
 def get_db_data():
     """Fetch all leads directly from SQLite"""
     try:
@@ -50,7 +46,6 @@ def get_db_data():
     except Exception:
         return pd.DataFrame()
 
-# --- SIDEBAR ---
 with st.sidebar:
     st.header("⚙️ Pipeline Controls")
     
@@ -66,7 +61,7 @@ with st.sidebar:
     
     st.divider()
 
-    # 2. Enrichment Mode
+    
     st.subheader("2. Enrichment Source")
     enrich_option = st.radio(
         "Choose Intelligence:",
@@ -78,7 +73,7 @@ with st.sidebar:
 
     st.divider()
     
-    # 3. Manual Trigger
+    
     st.subheader("3. Lead Generation")
     
     num_leads = st.number_input(
@@ -94,22 +89,18 @@ with st.sidebar:
         status_text = st.empty()
         
         try:
-            # Step 1: Generate
             status_text.text(f"Generating {num_leads} Leads...")
             requests.post(f"{API_URL}/generate-leads", json={"num_leads": num_leads})
             progress_bar.progress(25)
             
-            # Step 2: Enrich
             status_text.text(f"Enriching Leads ({enrich_mode})...")
             requests.post(f"{API_URL}/enrich-leads", json={"mode": enrich_mode})
             progress_bar.progress(50)
             
-            # Step 3: Messages
             status_text.text("Generating Messages...")
             requests.post(f"{API_URL}/generate-messages")
             progress_bar.progress(75)
             
-            # Step 4: Send
             status_text.text(f"Sending Messages ({mode_value})...")
             requests.post(f"{API_URL}/send-messages", json={"mode": mode_value})
             progress_bar.progress(100)
@@ -123,7 +114,6 @@ with st.sidebar:
 
     st.divider()
     
-    # 4. Manage Database
     st.subheader("🛠️ Manage Database") 
     
     col_a, col_b = st.columns(2)
@@ -147,10 +137,8 @@ with st.sidebar:
 
     st.divider()
     
-    # 5. Logs & Exports
     st.subheader("Logs & Export")
     
-    # CSV Export
     if st.button("💾 Download Leads (CSV)"):
         try:
             conn = sqlite3.connect(DB_PATH)
@@ -167,7 +155,6 @@ with st.sidebar:
         except:
             st.error("No data to export")
 
-    # Clear Logs
     if st.button("🧹 Clear Logs"):
         try:
             response = requests.post(f"{API_URL}/clear-logs")
@@ -186,13 +173,10 @@ with st.sidebar:
         time.sleep(1)
         st.rerun()
 
-# --- MAIN PAGE ---
-
 st.markdown("<h1 style='text-align: center;'>🤖 Agentic Sales Pipeline Monitor</h1>", unsafe_allow_html=True)
 st.markdown("<p style='text-align: center; color: gray;'>Autonomous Lead Generation & Outreach System</p>", unsafe_allow_html=True)
 st.divider()
 
-# Get Data
 df = get_db_data()
 
 if not df.empty:
@@ -208,7 +192,6 @@ else:
     sent_count = 0
     failed_count = 0
 
-# 1. Top Metrics
 col1, col2, col3, col4, col5 = st.columns(5)
 col1.metric("Total Leads", total_leads)
 col2.metric("Enriched", enriched_count)
@@ -218,7 +201,6 @@ col5.metric("Failed", failed_count)
 
 st.divider()
 
-# 2. Data Table
 st.subheader("📋 Lead Database")
 if not df.empty:
     st.dataframe(
@@ -239,13 +221,11 @@ else:
 
 st.divider()
 
-# 3. Visual Analytics
 if not df.empty:
     st.subheader("📊 Live Pipeline Analytics")
     
     col_chart1, col_chart2 = st.columns(2)
     
-    # Chart A: Sales Funnel
     with col_chart1:
         stages = ["Total Leads", "Enriched", "Generated Msgs", "Sent Successfully"]
         values = [total_leads, enriched_count, messaged_count, sent_count]
@@ -259,7 +239,6 @@ if not df.empty:
         fig_funnel.update_layout(title_text="Conversion Funnel", height=400)
         st.plotly_chart(fig_funnel, use_container_width=True)
 
-    # Chart B: Industry Distribution
     with col_chart2:
         if "industry" in df.columns:
             fig_pie = px.pie(
@@ -273,12 +252,10 @@ if not df.empty:
 
 else:
     st.caption("Charts will appear here once data is generated.")
-
-# 4. RECENT LOGS SECTION (NEW) 📜
+    
 st.divider()
 st.subheader("📜 Recent Outreach Logs (Live)")
 
-# Create a clean looking container for logs
 log_container = st.container(height=400, border=True)
 
 with log_container:
@@ -286,10 +263,10 @@ with log_container:
         with open(LOG_FILE, "r") as f:
             lines = f.readlines()
             if lines:
-                # Show in reverse order (Newest First)
                 for line in reversed(lines):
                     st.text(line.strip())
             else:
                 st.caption("Log file is empty. Waiting for pipeline activity...")
     else:
+
         st.info("No logs generated yet. Run the pipeline to see AI messages here.")
