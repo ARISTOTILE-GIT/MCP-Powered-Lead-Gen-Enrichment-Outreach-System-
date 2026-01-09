@@ -72,7 +72,7 @@ MCP-Powered Lead Gen+Enrichment+Outreach System/
 ```
 ---
 
-## 🧰 3.Tech Stack & Free Resources
+# 🧰 3.Tech Stack & Free Resources
 
 Per assignment constraints, **zero paid tools** were used.
 
@@ -85,3 +85,96 @@ Per assignment constraints, **zero paid tools** were used.
 | AI / LLM      | Groq             | **Free Tier**. Ultra-fast inference speed for Llama-3 models. |
 | Orchestration | n8n (Docker)     | Visual workflow automation (Self-hosted / Free). |
 | Testing       | Faker & Mock SMTP| To generate data and test emails safely locally. |
+
+---
+
+# ⚙️ 4.Installation & Setup
+
+### Prerequisites
+
+- Python 3.8+ installed  
+- Docker Desktop installed (for n8n)
+
+---
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/ARISTOTILE-GIT/MCP-Powered-Lead-Gen-Enrichment-Outreach-System-.git
+cd MCP-Powered-Lead-Gen-Enrichment-Outreach-System-
+```
+
+### Step 2: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 3: Setup Environment
+**Create a .env file in the root directory and add your Groq API Key:**
+
+```Ini,TOML
+GROQ_API_KEY=gsk_your_actual_api_key_here
+```
+---
+
+# ▶️ 5.How to Run the System
+
+*To see the full pipeline in action, you need **3 terminal windows** running simultaneously.*
+
+---
+
+### Terminal 1: Mock SMTP Server
+
+**Catches emails locally to ensure safe testing (Dry/Live modes).**
+
+```bash
+python app/mock_server.py
+```
+---
+### Terminal 2: Backend MCP Server
+
+**Exposes the tools (`generate`, `enrich`, `send`) via HTTP endpoints.**
+
+```bash
+python app/api.py
+```
+*Server starts at `http://localhost:8000`*
+
+---
+### Terminal 3: Frontend Dashboard
+
+**Monitors the pipeline progress and logs.**
+
+```bash
+streamlit run app/dashboard.py
+```
+*Dashboard opens at `http://localhost:8501`*
+
+---
+
+# 🔄 6.Orchestration: n8n Workflow
+
+The orchestration logic is handled by **n8n**, fulfilling the **"Agent"** requirement.
+
+---
+
+### 1. Start n8n (Docker)
+
+```bash
+docker run -it --rm --name n8n -p 5678:5678 --add-host=host.docker.internal:host-gateway n8nio/n8n:latest
+```
+
+### 2. Import Workflow:
+
+* **Open `http://localhost:5678.`**
+
+* *Click **"Add Workflow"** -> **"Import from File"**.*
+
+* **Select `n8n/sales_pipeline_workflow.json` (included in this repo).**
+
+### 3. Execute:
+* **Click "Execute Workflow" to trigger the agentic loop.**
+
+---
+
